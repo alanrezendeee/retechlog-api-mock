@@ -43,6 +43,9 @@ RUN \
   else echo "Lockfile not found." && exit 1; \
   fi
 
+# Verificar se o build foi criado
+RUN ls -la .next/
+
 # ================================
 # Runner stage
 # ================================
@@ -67,6 +70,9 @@ COPY --from=builder /app/public ./public
 # Copiar build otimizado
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+# Verificar se os arquivos foram copiados
+RUN ls -la ./
 
 # Mudar para usuário não-root
 USER nextjs

@@ -20,21 +20,18 @@ Guia simples para fazer deploy da API Mock no Railway.
 
 2. **Configurar Variáveis de Ambiente**
    - No dashboard do projeto, vá em "Variables"
-   - Adicione as variáveis do arquivo `env.railway`:
+   - Adicione as variáveis essenciais:
    ```bash
    NODE_ENV=production
-   PORT=7272
-   CORS_ALLOWED_ORIGINS=http://localhost:8082,http://localhost:3000,https://retechlog-ui.vercel.app
    JWT_SECRET=sua-chave-jwt-secreta-aqui
-   JWT_EXPIRES_IN=7d
-   LOG_LEVEL=info
-   MOCK_DELAY_MIN=100
-   MOCK_DELAY_MAX=500
+   CORS_ALLOWED_ORIGINS=http://localhost:8082,http://localhost:3000,https://retechlog-ui.vercel.app
    ```
+   
+   **Importante**: NÃO configure a variável `PORT` - o Railway define automaticamente!
 
 3. **Deploy Automático**
    - Railway detectará automaticamente o `railway.json`
-   - Usará o `Dockerfile.railway` para build
+   - Usará o `Dockerfile.railway.simple` para build
    - Deploy será feito automaticamente
 
 ### Opção 2: Deploy via Railway CLI
@@ -53,6 +50,8 @@ railway init
 railway variables set NODE_ENV=production
 railway variables set JWT_SECRET=sua-chave-jwt-secreta
 railway variables set CORS_ALLOWED_ORIGINS=http://localhost:8082,http://localhost:3000
+
+# NÃO configure PORT - Railway define automaticamente!
 
 # Deploy
 railway up
