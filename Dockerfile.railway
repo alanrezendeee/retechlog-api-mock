@@ -1,0 +1,78 @@
+# Dockerfile otimizado para Railway
+FROM node:20-alpine AS base
+
+# Instalar dependências necessárias
+RUN apk add --no-cache libc6-compat
+
+# Definir diretório de trabalho
+WORKDIR /app
+
+# ================================
+# Dependencies stage
+# ================================
+FROM base AS deps
+
+# Copiar arquivos de dependências
+COPY package.json yarn.lock* package-lock.json* ./
+
+# Instalar dependências
+RUN \
+  if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
+  elif [ -f package-lock.json ]; then npm ci; \
+  else echo "Lockfile not found." && exit 1; \
+  fi
+
+# ================================
+# Builder stage
+# ================================
+FROM base AS builder
+
+# Copiar dependências
+COPY --from=deps /app/node_modules ./node_modules
+
+# Copiar código fonte
+COPY . .
+
+# Build da aplicação
+ENV NEXT_TELEMETRY_DISABLED 1
+ENV NODE_ENV production
+
+RUN \
+  if [ -f yarn.lock ]; then yarn build; \
+  elif [ -f package-lock.json ]; then npm run build; \
+  else echo "Lockfile not found." && exit 1; \
+  fi
+
+# ================================
+# Runner stage
+# ================================
+FROM base AS runner
+
+# Configurar usuário
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+
+# Definir variáveis de ambiente
+ENV NODE_ENV production
+ENV NEXT_TELEMETRY_DISABLED 1
+ENV PORT 7272
+
+# Criar diretórios
+RUN mkdir .next
+RUN chown nextjs:nodejs .next
+
+# Copiar arquivos públicos
+COPY --from=builder /app/public ./public
+
+# Copiar build otimizado
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+# Mudar para usuário não-root
+USER nextjs
+
+# Expor porta (Railway usa PORT dinâmico)
+EXPOSE $PORT
+
+# Comando de inicialização
+CMD ["node", "server.js"]

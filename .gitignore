@@ -1,30 +1,38 @@
 # Dependências
 node_modules/
+.pnp
+.pnp.js
+
+# Testes
+/coverage/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
+# Next.js
+/.next/
+/out/
+/build/
+
+# Produção
+/build
+
+# Variáveis de ambiente
+.env*.local
+.env
+.env.*
+!env.example
+
+# Logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-# Builds
-dist/
-build/
-out/
-
-# Variáveis de ambiente
-.env
-.env.*
-!.env.example
-
-# Logs
-logs/
-*.log
-log/
-coverage/
-.nyc_output
-
 # Runtime data
-pids/
+pids
 *.pid
 *.seed
 *.pid.lock
@@ -62,43 +70,32 @@ jspm_packages/
 .cache
 .parcel-cache
 
-# next.js build output
-.next
-
-# nuxt.js build output
+# Nuxt.js build / generate output
 .nuxt
+dist
 
-# vuepress build output
-.vuepress/dist
+# Gatsby files
+.cache/
+public
 
-# Serverless directories
-.serverless/
+# Storybook build outputs
+.out
+.storybook-out
+storybook-static
 
-# FuseBox cache
-.fusebox/
+# Temporary folders
+tmp/
+temp/
 
-# DynamoDB Local files
-.dynamodb/
-
-# TernJS port file
-.tern-port
-
-# Stores VSCode versions used for testing VSCode extensions
-.vscode-test
-
-# yarn v2
-.yarn/cache
-.yarn/unplugged
-.yarn/build-state.yml
-.yarn/install-state.gz
-.pnp.*
-
-# IDEs e editores
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
 
 # Sistema operacional
 .DS_Store
@@ -109,33 +106,63 @@ jspm_packages/
 ehthumbs.db
 Thumbs.db
 
-# Docker
-.dockerignore
+# Turbopack
+.turbo
 
-# Temporários
-.tmp/
-.temp/
+# Vercel
+.vercel
 
-# NestJS específico
-*.js.map
-*.d.ts.map
+# Sentry
+.sentryclirc
 
-# Testes
-coverage/
-test-results/
-junit.xml
+# TypeScript
+*.tsbuildinfo
 
-# Database
-*.sqlite
-*.sqlite3
-*.db
+# ESLint
+.eslintcache
+
+# Prettier
+.prettiercache
+
+# Yarn
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*
+
+# Package managers
+package-lock.json
+yarn.lock
+
+# Backup files
+*.bak
+*.backup
 
 # SSL certificates
 *.pem
 *.key
 *.crt
 
-# Backup files
-*.bak
-*.backup
-node_modules
+# Database
+*.sqlite
+*.sqlite3
+*.db
+
+# Docker
+.dockerignore
+
+# Logs específicos do projeto
+logs/
+*.log
+
+# Docker volumes
+docker-volumes/
+
+# Monitoring
+monitoring/prometheus_data/
+monitoring/grafana_data/
+
+# Nginx
+nginx.conf.backup
+ssl-backup/
