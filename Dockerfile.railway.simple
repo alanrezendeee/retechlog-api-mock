@@ -19,11 +19,12 @@ COPY . .
 # Build da aplicação
 ENV NEXT_TELEMETRY_DISABLED 1
 ENV NODE_ENV production
+ENV PORT 7272
 
 RUN yarn build
 
-# Expor porta (Railway usa PORT dinâmico)
-EXPOSE $PORT
+# Expor porta específica
+EXPOSE 7272
 
 # Comando de inicialização
-CMD ["yarn", "start"]
+CMD ["node", "server.js"]
